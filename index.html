@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>小区地图</title>
+	<style type="text/css"> html {height: 100%}  body {height: 100%;margin: 0px;padding: 0px}  #container {height: 100%}</style>
+	<script type="text/javascript"
+					src="https://api.map.baidu.com/api?v=3.0&ak=FOghoenHAy69lWj3HgkVW5kz4IRgbQSi">
+		//v3.0版本的引用方式：src="https://api.map.baidu.com/api?v=3.0&ak=您的密钥"
+	</script>
+	<script type="text/javascript" src="js/config.js"></script>
+	<script type="text/javascript" src="js/common.js"></script>
+	<script type="text/javascript" src="js/data.js"></script>
+</head>
+<body>
+<div id="container"></div>
+<script type="text/javascript">
+	// 百度地图API功能
+	const map = new BMap.Map('container');    // 创建Map实例
+
+	function init() {
+		initMap();
+		printVersion();
+		drawOutline();
+		drawTitle();
+		printAuthor();
+
+		addLogger();
+		// addTestMarker();
+
+		positions.forEach(item => {
+			addPosition(...item);
+		});
+
+		console.log(`总容量: ${positions.length}, 合理容量: ${positions.filter((item) => item[0] !== '黄').length}, 临时车位: ${positions.filter((item) => item[0] !== '空').length}`);
+	}
+
+	init();
+</script>
+</body>
+</html>
