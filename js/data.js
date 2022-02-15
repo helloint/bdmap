@@ -1,3 +1,9 @@
+/**
+ * 关于坐标的说明：
+ * Baidu用的GPS坐标系统和其他地图软件不一样，默认的是bd09ll。这解释了下面的坐标，你在其他地图上是有偏移的。（虽然都不是标准GPS坐标）
+ * 有个API可以做转换 https://lbsyun.baidu.com/index.php?title=webapi/guide/changeposition
+ * https://api.map.baidu.com/geoconv/v1/?coords=121.3917301097027,31.134506369643447&from=5&to=3&ak=FOghoenHAy69lWj3HgkVW5kz4IRgbQSi
+ */
 const positions = [
 	['1', 121.3917301097027, 31.134506369643447],
 	['2', 121.39167621137211, 31.13449284653547],
