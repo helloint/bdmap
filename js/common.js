@@ -9,8 +9,8 @@ const pointsInfo = [];
 function addPosition(text, lng, lat) {
 	var point = new BMap.Point(lng, lat);
 	var marker = new BMap.Marker(point); // 创建标注
-	var offsetIndex = text === '黄' ? 2 : text === '空' || text === '无' ? 1 : 0;
-	marker.setIcon(new BMap.Icon('images/tooltip.gif',
+	var offsetIndex = getOffsetIndex(text);
+	marker.setIcon(new BMap.Icon('../images/tooltip.gif',
 			new BMap.Size(34, 24),
 			{
 				anchor: new BMap.Size(7 + 3 * (text.length - 1), 24),
@@ -73,38 +73,42 @@ function drawOutline() {
 
 // 标题
 function drawTitle() {
-	var titleOpts = {
-		position: new BMap.Point(...titlePosition),
-		offset: new BMap.Size(0, 0),
-	};
-	var titleLabel = new BMap.Label(mapTitle, titleOpts);
-	titleLabel.setStyle({
-		color: 'gray',
-		borderRadius: '5px',
-		borderColor: '#ccc',
-		padding: '10px',
-		fontSize: '16px',
-		fontFamily: '微软雅黑'
-	});
-	map.addOverlay(titleLabel);
+	if (mapTitle) {
+		var titleOpts = {
+			position: new BMap.Point(...titlePosition),
+			offset: new BMap.Size(0, 0),
+		};
+		var titleLabel = new BMap.Label(mapTitle, titleOpts);
+		titleLabel.setStyle({
+			color: 'gray',
+			borderRadius: '5px',
+			borderColor: '#ccc',
+			padding: '10px',
+			fontSize: '16px',
+			fontFamily: '微软雅黑'
+		});
+		map.addOverlay(titleLabel);
+	}
 }
 
 // 作者信息
 function printAuthor() {
-	var authorOpts = {
-		position: new BMap.Point(...authorPosition),
-		offset: new BMap.Size(0, 0) // 设置文本偏移量
-	};
-	var authorLabel = new BMap.Label(mapAuthor, authorOpts);
-	// 自定义文本标注样式
-	authorLabel.setStyle({
-		color: 'gray',
-		borderRadius: '5px',
-		borderColor: '#ccc',
-		fontSize: '12px',
-		fontFamily: '微软雅黑'
-	});
-	map.addOverlay(authorLabel);
+	if (mapAuthor) {
+		var authorOpts = {
+			position: new BMap.Point(...authorPosition),
+			offset: new BMap.Size(0, 0) // 设置文本偏移量
+		};
+		var authorLabel = new BMap.Label(mapAuthor, authorOpts);
+		// 自定义文本标注样式
+		authorLabel.setStyle({
+			color: 'gray',
+			borderRadius: '5px',
+			borderColor: '#ccc',
+			fontSize: '12px',
+			fontFamily: '微软雅黑'
+		});
+		map.addOverlay(authorLabel);
+	}
 }
 
 // 版本号
@@ -119,7 +123,7 @@ function printVersion() {
 			: now.getMonth() + 1;
 	var day = now.getDate() < 10 ? '0' + now.getDate() : now
 			.getDate();
-	var version = [year, month, day, '.', parseInt(now.getTime() % (3600000 * 24) / 1000, 10)].join('');
+	var version = [versionPrefix, year, month, day, '.', now.getHours()].join('');
 	var versionLabel = new BMap.Label(version, versionOpts);
 	// 自定义文本标注样式
 	versionLabel.setStyle({
@@ -138,9 +142,9 @@ function initMap() {
 	var newMapType = new BMap.MapType('新地图', defaultTileLayer, {minZoom: 15, maxZoom: 25});
 	map.setMapType(newMapType);
 	var point = new BMap.Point(...mapPosition);
-	map.centerAndZoom(point, 20); // 设置中心点坐标和地图级别
+	map.centerAndZoom(point, mapZoom); // 设置中心点坐标和地图级别
 	map.setCurrentCity('上海'); // 设置地图显示的城市
-	// map.enableScrollWheelZoom(true); // 开启鼠标滚轮缩放
+	map.enableScrollWheelZoom(true); // 开启鼠标滚轮缩放
 
 	map.addEventListener('click', function (e) {
 		pointsInfo.push(`['', ${e.point.lng}, ${e.point.lat}],`);
