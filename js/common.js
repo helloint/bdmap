@@ -25,26 +25,6 @@ function addPosition(text, lng, lat) {
 	map.addOverlay(marker);
 }
 
-function addLogger() {
-	var text = 'Log';
-	var point = new BMap.Point(...loggerPosition);
-	var marker = new BMap.Marker(point); // 创建标注
-	marker.setIcon(new BMap.Icon('http://map.baidu.com/newmap/static/common/images/mk_14e51b4.gif',
-			new BMap.Size(34, 24),
-			{imageOffset: new BMap.Size(0, (text.length - 1) * -30)}
-	));
-	var label = new BMap.Label(text, {offset: new BMap.Size(3, 0)});
-	label.setStyle({
-		background: 'none', color: '#fff', border: 'none'
-	});
-	marker.setLabel(label);
-	map.addOverlay(marker);
-
-	marker.addEventListener('click', function (e) {
-		console.log(pointsInfo.join('\n'));
-	});
-}
-
 function addTestMarker() {
 	var myIcon = new BMap.Icon('http://api.map.baidu.com/img/markers.png', new BMap.Size(23, 25), {
 		// 指定定位位置。
@@ -132,6 +112,9 @@ function printVersion() {
 		borderColor: '#ccc',
 		fontSize: '12px',
 		fontFamily: '微软雅黑'
+	});
+	versionLabel.addEventListener('click', function (e) {
+		console.log(pointsInfo.join('\n'));
 	});
 	map.addOverlay(versionLabel);
 }
