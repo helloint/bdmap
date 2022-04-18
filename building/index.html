@@ -35,7 +35,9 @@
 		blocked.forEach(item => {
 			addBlocked(...item);
 		});
-		addSamples(...sample);
+		samples.forEach(item => {
+			addSamples(...item);
+		});
 
 		// TODO: make it common
 		// console.log(`总容量: ${positions.length}, 合理容量: ${positions.filter((item) => item[0] !== '黄').length}, 临时车位: ${positions.filter((item) => item[0] !== '空').length}`);

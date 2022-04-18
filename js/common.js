@@ -25,10 +25,11 @@ function addPosition(text, lng, lat) {
 	map.addOverlay(marker);
 }
 
-function addBlocked(text, lng, lat) {
+function addBlocked(text, lng, lat, type) {
 	var point = new BMap.Point(lng, lat);
 	var marker = new BMap.Marker(point); // 创建标注
-	marker.setIcon(new BMap.Icon('../images/square.png',
+	var icon = type === 0 ? '../images/red-square.png' : '../images/black-square.png'
+	marker.setIcon(new BMap.Icon(icon,
 		new BMap.Size(32, 32),
 		{
 			anchor: new BMap.Size(14, 28),
@@ -42,10 +43,28 @@ function addBlocked(text, lng, lat) {
 	map.addOverlay(marker);
 }
 
-function addSamples(text, lng, lat) {
+function addSamples(text, lng, lat, type) {
 	var point = new BMap.Point(lng, lat);
 	var marker = new BMap.Marker(point); // 创建标注
-	marker.setIcon(new BMap.Icon('../images/square_s.png',
+	var icon = type === 0 ? '../images/red-square_s.png' : '../images/black-square_s.png'
+	marker.setIcon(new BMap.Icon(icon,
+		new BMap.Size(20, 20),
+		{
+			anchor: new BMap.Size(6, 24),
+		}
+	));
+	var label = new BMap.Label(text, {offset: new BMap.Size(3, 0)});
+	label.setStyle({
+		background: 'none', color: 'red', border: 'none'
+	});
+	marker.setLabel(label);
+	map.addOverlay(marker);
+}
+
+function addSamples2(text, lng, lat) {
+	var point = new BMap.Point(lng, lat);
+	var marker = new BMap.Marker(point); // 创建标注
+	marker.setIcon(new BMap.Icon('../images/black-square_s.png',
 		new BMap.Size(20, 20),
 		{
 			anchor: new BMap.Size(6, 24),
