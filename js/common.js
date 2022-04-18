@@ -25,6 +25,23 @@ function addPosition(text, lng, lat) {
 	map.addOverlay(marker);
 }
 
+function addBlocked(text, lng, lat) {
+	var point = new BMap.Point(lng, lat);
+	var marker = new BMap.Marker(point); // 创建标注
+	marker.setIcon(new BMap.Icon('../images/square.png',
+		new BMap.Size(32, 32),
+		{
+			anchor: new BMap.Size(14, 28),
+		}
+	));
+	var label = new BMap.Label(text, {offset: new BMap.Size(3, 0)});
+	label.setStyle({
+		background: 'none', color: '#fff', border: 'none'
+	});
+	marker.setLabel(label);
+	map.addOverlay(marker);
+}
+
 function addTestMarker() {
 	var myIcon = new BMap.Icon('http://api.map.baidu.com/img/markers.png', new BMap.Size(23, 25), {
 		// 指定定位位置。
