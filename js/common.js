@@ -36,6 +36,11 @@ function drawOutline() {
 		return new BMapGL.Point(...position);
 	}), {strokeColor: 'blue', strokeWeight: 1, strokeOpacity: 0.5, fillColor: 'blue', fillOpacity: 0.05});
 	map.addOverlay(outlinePolygon);
+
+	var squarePolygon = new BMapGL.Polygon(squarePoints.map((position) => {
+		return new BMapGL.Point(...position);
+	}), {strokeColor: 'black', strokeWeight: 1, strokeOpacity: 1, fillOpacity: 0});
+	map.addOverlay(squarePolygon);
 }
 
 // 标题
