@@ -1,3 +1,4 @@
+// TODO: handle map offset
 const mapPosition = [121.392716, 31.134039];
 const mapZoom = 20;
 const outlinePoints = [

@@ -7,14 +7,8 @@ const pointsInfo = [];
  * @param lat 纬度
  */
 function addPosition(text, lng, lat, dataType0, dataType1, styleType) {
-	var point = new BMapGL.Point(lng, lat);
-	var marker = new BMapGL.Marker(point);
+	var label = new BMapGL.Label(text, {position: new BMapGL.Point(lng, lat)});
 	var textSize = styleType ? 14 : 20;
-	// 没办法去除icon，所以否则只能搞个透明的png取代
-	var icon = new BMapGL.Icon('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAAtJREFUGFdjYAACAAAFAAGq1chRAAAAAElFTkSuQmCC', new BMapGL.Size(textSize, textSize));
-	marker.setIcon(icon);
-	var offsetFix = [-3, -3];
-	var label = new BMapGL.Label(text, {offset: new BMapGL.Size(-textSize / 2 + offsetFix[0], -textSize / 2 + offsetFix[1])});
 	var color = colors1[dataType0];
 	label.setStyle({
 		color: '#fff',
@@ -24,15 +18,17 @@ function addPosition(text, lng, lat, dataType0, dataType1, styleType) {
 		borderWidth: '2px',
 		borderRadius: '5px',
 		backgroundColor: color,
-		lineHeight: textSize + 'px'
+		lineHeight: textSize + 'px',
+		transform: 'translate(-50%,-50%)',
 	});
-	marker.setLabel(label);
 	// FIXME: doesn't work
-	// marker.addEventListener('hover mouseenter', function (e) {
-	// 	marker.setZIndex(currMakerZIndex++);
+	// label.addEventListener("mouseover", function (e) {
+	// 	this.setZIndex(currMakerZIndex++);
 	// });
-	map.addOverlay(marker);
+	map.addOverlay(label);
 }
+
+// var currMakerZIndex = 10;
 
 // 小区轮廓
 function drawOutline() {
@@ -47,7 +43,6 @@ function drawTitle() {
 	if (mapTitle) {
 		var titleOpts = {
 			position: new BMapGL.Point(...mapTitlePosition),
-			offset: new BMapGL.Size(0, 0),
 		};
 		var titleLabel = new BMapGL.Label(mapTitle, titleOpts);
 		titleLabel.setStyle({
@@ -56,7 +51,8 @@ function drawTitle() {
 			borderColor: '#ccc',
 			padding: '10px',
 			fontSize: '16px',
-			fontFamily: '微软雅黑'
+			fontFamily: '微软雅黑',
+			transform: 'translate(-50%,-50%)',
 		});
 		map.addOverlay(titleLabel);
 	}
@@ -67,7 +63,6 @@ function printAuthor() {
 	if (mapAuthor) {
 		var authorOpts = {
 			position: new BMapGL.Point(...mapAuthorPosition),
-			offset: new BMapGL.Size(0, 0) // 设置文本偏移量
 		};
 		var authorLabel = new BMapGL.Label(mapAuthor, authorOpts);
 		authorLabel.setStyle({
@@ -75,7 +70,8 @@ function printAuthor() {
 			borderRadius: '5px',
 			borderColor: '#ccc',
 			fontSize: '12px',
-			fontFamily: '微软雅黑'
+			fontFamily: '微软雅黑',
+			transform: 'translate(-50%,-50%)',
 		});
 		map.addOverlay(authorLabel);
 	}
@@ -100,7 +96,8 @@ function printVersion() {
 		borderRadius: '5px',
 		borderColor: '#ccc',
 		fontSize: '12px',
-		fontFamily: '微软雅黑'
+		fontFamily: '微软雅黑',
+		transform: 'translate(-50%,-50%)',
 	});
 	versionLabel.addEventListener('click', function (e) {
 		console.log(pointsInfo.join('\n'));
