@@ -27,9 +27,26 @@
 
 		drawTitle();
 		printVersion();
+		drawTrash();
 
 		// TODO: make it common
 		// console.log(`总容量: ${positions.length}, 合理容量: ${positions.filter((item) => item[0] !== '黄').length}, 临时车位: ${positions.filter((item) => item[0] !== '空').length}`);
+	}
+
+	function drawTrash() {
+		const iconType = new BMapGL.Icon('../images/trash.svg', new BMapGL.Size(16, 16));
+		trashes.forEach(item => {
+			var text = item[0], lng = item[1], lat = item[2];
+			var point = new BMapGL.Point(lng, lat);
+			var marker = new BMapGL.Marker(point);
+			marker.setIcon(iconType);
+			var label = new BMapGL.Label(text, {offset: new BMapGL.Size(-13, -25)});
+			label.setStyle({
+				fontSize: '12px', textAlign: 'center', background: 'none', color: '#F67950', border: 'none'
+			});
+			marker.setLabel(label);
+			map.addOverlay(marker);
+		})
 	}
 
 	init();
