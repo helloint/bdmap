@@ -1,6 +1,33 @@
 const pointsInfo = [];
 const crossIcon = new BMapGL.Icon('../images/cross.svg', new BMapGL.Size(15, 15));
 
+function initMap() {
+	if (mapTitle) {
+		document.title = mapTitle;
+	}
+
+	var point = new BMapGL.Point(...mapPosition);
+	map.centerAndZoom(point, mapZoom); // 设置中心点坐标和地图级别
+	map.enableScrollWheelZoom(true); // 开启鼠标滚轮缩放
+	map.setZoom(mapZoom);
+	mapHeading && map.setHeading(mapHeading); // 设置地图的旋转角度
+
+	map.addEventListener('click', function (e) {
+		pointsInfo.push(`['', ${e.latlng.lng}, ${e.latlng.lat}],`);
+	});
+
+	map.addEventListener('dblclick', function (e) {
+		e.stopPropagation();
+	});
+
+	map.addEventListener("zoomend", function () {
+		var currZoom = this.getZoom();
+		console.log(`currentZoom: ${currZoom}`);
+	});
+}
+
+// var currMakerZIndex = 10;
+
 /**
  * 添加标注到地图中
  * @param text 文本
@@ -28,8 +55,6 @@ function addPosition(text, lng, lat, dataType0, dataType1, styleType) {
 	// });
 	map.addOverlay(label);
 }
-
-// var currMakerZIndex = 10;
 
 // 小区轮廓
 function drawOutline() {
@@ -112,29 +137,4 @@ function printVersion() {
 		console.log(pointsInfo.join('\n'));
 	});
 	map.addOverlay(versionLabel);
-}
-
-function initMap() {
-	if (mapTitle) {
-		document.title = mapTitle;
-	}
-
-	var point = new BMapGL.Point(...mapPosition);
-	map.centerAndZoom(point, mapZoom); // 设置中心点坐标和地图级别
-	map.enableScrollWheelZoom(true); // 开启鼠标滚轮缩放
-	map.setZoom(mapZoom);
-	mapHeading && map.setHeading(mapHeading); // 设置地图的旋转角度
-
-	map.addEventListener('click', function (e) {
-		pointsInfo.push(`['', ${e.latlng.lng}, ${e.latlng.lat}],`);
-	});
-
-	map.addEventListener('dblclick', function (e) {
-		e.stopPropagation();
-	});
-
-	map.addEventListener("zoomend", function () {
-		var currZoom = this.getZoom();
-		console.log(`currentZoom: ${currZoom}`);
-	});
 }
