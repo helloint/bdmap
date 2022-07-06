@@ -30,23 +30,26 @@ function initMap() {
 
 /**
  * 添加标注到地图中
+ * styleType: 0：默认12px，1：小字体，用户做示例，2：车位图用，6px
  * @param text 文本
  * @param lng 经度
  * @param lat 纬度
  */
 function addPosition(text, lng, lat, dataType0, dataType1, styleType) {
 	var label = new BMapGL.Label(text, {position: new BMapGL.Point(lng, lat)});
-	var textSize = styleType ? 14 : 20;
+	var styleSize = styleType === 1 ? 14 : styleType === 2 ? 12 : 20;
+	var fontSize = styleType === 2 ? 8 : 12;
 	var color = colors1[dataType0];
 	label.setStyle({
 		color: '#fff',
-		width: textSize + 'px',
+		fontSize: fontSize + 'px',
+		width: styleSize + 'px',
 		textAlign: 'center',
 		borderColor: dataType1 ? colors2[dataType1] : colors1[dataType0],
 		borderWidth: '2px',
 		borderRadius: '5px',
 		backgroundColor: color,
-		lineHeight: textSize + 'px',
+		lineHeight: styleSize + 'px',
 		transform: 'translate(-50%,-50%)',
 	});
 	// FIXME: doesn't work
