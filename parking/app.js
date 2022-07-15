@@ -95,6 +95,28 @@ function drawTitle() {
 	}
 }
 
+// 图例文字
+function drawDesc() {
+	if (descriptions) {
+		descriptions.forEach(desc => {
+			var opts = {
+				position: new BMapGL.Point(desc[0], desc[1]),
+				offset: new BMapGL.Size(0, 0) // 设置文本偏移量
+			};
+			var label = new BMapGL.Label(desc[2], opts);
+			label.setStyle({
+				color: 'gray',
+				borderRadius: '5px',
+				borderColor: '#ccc',
+				fontSize: '12px',
+				fontFamily: '微软雅黑',
+				transform: 'translate(-50%,-50%)',
+			});
+			map.addOverlay(label);
+		});
+	}
+}
+
 // 作者信息
 function printAuthor() {
 	if (mapAuthor) {
