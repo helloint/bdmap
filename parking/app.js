@@ -7,6 +7,51 @@ function initMap() {
 	}
 
 	var point = new BMapGL.Point(...mapPosition);
+	map.setMapStyleV2({
+		styleJson: [{
+			"featureType": "road",
+			"elementType": "geometry",
+			"stylers": {
+				"visibility": "on"
+			}
+		}, {
+			"featureType": "road",
+			"elementType": "labels",
+			"stylers": {
+				"visibility": "on"
+			}
+		}, {
+			"featureType": "districtlabel",
+			"elementType": "labels",
+			"stylers": {
+				"visibility": "on"
+			}
+		}, {
+			"featureType": "districtlabel",
+			"elementType": "labels.icon",
+			"stylers": {
+				"visibility": "on"
+			}
+		}, {
+			"featureType": "poilabel",
+			"elementType": "labels",
+			"stylers": {
+				"visibility": "off"
+			}
+		}, {
+			"featureType": "poilabel",
+			"elementType": "labels.icon",
+			"stylers": {
+				"visibility": "off"
+			}
+		}, {
+			"featureType": "background",
+			"elementType": "geometry",
+			"stylers": {
+				"visibility": "on"
+			}
+		}]
+	});
 	map.centerAndZoom(point, mapZoom); // 设置中心点坐标和地图级别
 	map.enableScrollWheelZoom(true); // 开启鼠标滚轮缩放
 	map.setZoom(mapZoom);
@@ -38,18 +83,20 @@ function initMap() {
 function addPosition(text, lng, lat, dataType0, dataType1, styleType) {
 	var label = new BMapGL.Label(text, {position: new BMapGL.Point(lng, lat)});
 	var styleSize = styleType === 1 ? 14 : styleType === 2 ? 12 : 20;
+	var borderRadius = styleType === 3 ? 15 : 5;
 	var fontSize = styleType === 2 ? 8 : 12;
-	var color = colors1[dataType0];
+	var color = styleType === 3 ? colors1[dataType0] : '#fff';
+	var backgroundColor = styleType === 3 ? 'transparent' : colors1[dataType0];
 	label.setStyle({
-		color: '#fff',
-		fontSize: fontSize + 'px',
-		width: styleSize + 'px',
+		color: color,
+		fontSize: `${fontSize}px`,
+		width: `${styleSize}px`,
 		textAlign: 'center',
 		borderColor: dataType1 ? colors2[dataType1] : colors1[dataType0],
 		borderWidth: '2px',
-		borderRadius: '5px',
-		backgroundColor: color,
-		lineHeight: styleSize + 'px',
+		borderRadius: `${borderRadius}px`,
+		backgroundColor: backgroundColor,
+		lineHeight: `${styleSize}px`,
 		transform: 'translate(-50%,-50%)',
 	});
 	// FIXME: doesn't work

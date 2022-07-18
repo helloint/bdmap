@@ -21,7 +21,13 @@
 		printAuthor();
 		// addTestMarker();
 
-		positions.forEach(item => {
+		positions.filter(item => {
+			return item[0] !== '临';
+			// return item;
+		}).forEach(item => {
+			addPosition(...item);
+		});
+		buildings.forEach(item => {
 			addPosition(...item);
 		});
 		drawDesc();
