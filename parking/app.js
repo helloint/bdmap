@@ -144,13 +144,19 @@ function drawTitle() {
 
 // 图例文字
 function drawDesc() {
-	if (descriptions) {
-		descriptions.forEach(desc => {
-			var opts = {
-				position: new BMapGL.Point(desc[0], desc[1]),
+	if (introDesc) {
+		introPositions.filter(item => {
+			return displayTempPosition ? item : item[0] !== '临';
+		}).forEach(item => {
+			addPosition(...item);
+		});
+
+		introDesc.filter(item => displayTempPosition ? item : item[0] !== '临时车位').forEach(desc => {
+			const opts = {
+				position: new BMapGL.Point(desc[1], desc[2]),
 				offset: new BMapGL.Size(0, 0) // 设置文本偏移量
 			};
-			var label = new BMapGL.Label(desc[2], opts);
+			const label = new BMapGL.Label(desc[0], opts);
 			label.setStyle({
 				color: 'gray',
 				borderRadius: '5px',
@@ -209,4 +215,22 @@ function printVersion() {
 		console.log(pointsInfo.join('\n'));
 	});
 	map.addOverlay(versionLabel);
+}
+
+// Util Functions
+function getHashParameter(key){
+	var params = getHashParameters();
+	return params[key];
+}
+
+function getHashParameters(){
+	var arr = (location.hash || "").replace(/^\#/,'').split("&");
+	var params = {};
+	for(var i=0; i<arr.length; i++){
+		var data = arr[i].split("=");
+		if(data.length === 2){
+			params[data[0]] = decodeURIComponent(data[1]);
+		}
+	}
+	return params;
 }

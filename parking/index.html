@@ -21,9 +21,10 @@
 		printAuthor();
 		// addTestMarker();
 
+		displayTempPosition = !!getHashParameter('temp');
+
 		positions.filter(item => {
-			return item[0] !== '临';
-			// return item;
+			return displayTempPosition ? item : item[0] !== '临';
 		}).forEach(item => {
 			addPosition(...item);
 		});
@@ -35,8 +36,14 @@
 		drawTitle();
 		printVersion();
 
-		// TODO: make it common
-		// console.log(`总容量: ${positions.length}, 合理容量: ${positions.filter((item) => item[0] !== '黄').length}, 临时车位: ${positions.filter((item) => item[0] !== '空').length}`);
+		console.log(`
+		地面最大容量: ${positions.length}
+		合理容量: ${positions.filter((item) => item[0] !== '禁').length}
+		固定车位: ${positions.filter((item) => item[3] === 0).length}
+		流动车位: ${positions.filter((item) => item[3] === 3).length}
+		临时车位: ${positions.filter((item) => item[0] === '临').length}
+		禁停车位: ${positions.filter((item) => item[0] === '禁').length}
+		`);
 	}
 
 	init();
